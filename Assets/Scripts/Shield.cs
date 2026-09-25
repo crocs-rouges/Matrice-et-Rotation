@@ -1,7 +1,5 @@
 using UnityEngine;
-using System;
 using UnityEngine.InputSystem;
-using Unity.Mathematics;
 
 // Author : Romain Chevalier
 
@@ -12,13 +10,9 @@ namespace Com.IsartDigital
         [SerializeField] private GameObject centerPillar;
         [SerializeField] private float distanceToPillar;
         [SerializeField] private float moveSpeed = 3;
-
         [SerializeField] private Transform shieldPointLeft;
         [SerializeField] private Transform shieldPointRight;
-
         private float shieldPosY;
-
-
 
         private void Start()
         {
@@ -40,7 +34,7 @@ namespace Com.IsartDigital
 
         private void MakeRotation(bool pGoLeft = true)
         {
-            float lMultiply = (pGoLeft) ? 1f : -1f;
+            float lMultiply = pGoLeft ? 1f : -1f;
             float lAngle = lMultiply * (moveSpeed * Time.deltaTime);
             float lCosX = Mathf.Cos(lAngle);
             float lSinY = Mathf.Sin(lAngle);
