@@ -35,73 +35,14 @@ namespace Com.IsartDigital
                 RotationLeft();
             // Right
             if (Keyboard.current != null && Keyboard.current.dKey.isPressed)
-                RotationLeft();
-        }
-
-        private void MoveLeft()
-        {
-            // Use cosinus and sinus to move with radiants
-            Vector3 lDistance = transform.position - centerPillar.transform.position;
-            Vector3 lDirection = lDistance.normalized;
-
-            // make a rotation on Direction
-            float lCosX = Mathf.Cos(lDirection.x);
-            float lSinY = Mathf.Sin(lDirection.z);
-            Vector4 lMatrice = new Vector4()
-            {
-                x = lCosX,
-                y = -lSinY,
-                z = lSinY,
-                w = lCosX
-            };
-            float lPosX = transform.position.x * lMatrice.x;
-            lPosX += transform.position.z * lMatrice.y;
-
-            float lPosZ = transform.position.x * lMatrice.z;
-            lPosZ += transform.position.z * lMatrice.w;
-
-            Vector3 lNewPos = new Vector3(lPosX, shieldPosY, lPosZ);
-
-            transform.position = lNewPos;
-        }
-
-        private void MoveRight()
-        {
-            // Use cosinus and sinus to move with radiants
-            Vector3 lDistance = transform.position - centerPillar.transform.position;
-            Vector3 lDirection = lDistance.normalized;
-
-            // make a rotation on Direction
-            float lCosX = Mathf.Cos(lDirection.x);
-            lCosX = lDirection.x;
-            float lSinY = Mathf.Sin(lDirection.z);
-            lSinY = lDirection.z;
-            Vector4 lMatrice = new Vector4()
-            {
-                x = lCosX,
-                y = -lSinY,
-                z = lSinY,
-                w = lCosX
-            };
-            float lPosX = transform.position.x * lMatrice.x;
-            lPosX -= transform.position.z * lMatrice.y;
-
-            float lPosZ = transform.position.x * lMatrice.z;
-            lPosZ -= transform.position.z * lMatrice.w;
-
-            Vector3 lNewPos = new Vector3(lPosX * distanceToPillar, shieldPosY, lPosZ * distanceToPillar);
-
-            transform.position = lNewPos;
+                RotationRight();
         }
 
         private void RotationLeft()
         {
-
-
             float lAngle = moveSpeed * Time.deltaTime;
             float lCosX = Mathf.Cos(lAngle);
             float lSinY = Mathf.Sin(lAngle);
-
 
             Vector4 lMatrice = new Vector4()
             {
@@ -118,15 +59,32 @@ namespace Com.IsartDigital
             float lPosPillarZ = lDistance.x * lMatrice.z;
             lPosPillarZ += lDistance.z * lMatrice.w;
 
+            Vector3 lNewPos = new Vector3(centerPillar.transform.position.x + lPosPillarX, shieldPosY, lPosPillarZ + centerPillar.transform.position.z);
+            transform.position = lNewPos;
+        }
 
-            float lPosX = transform.position.x * lMatrice.x;
-            lPosX += transform.position.z * lMatrice.y;
+        private void RotationRight()
+        {
+            float lAngle = -(moveSpeed * Time.deltaTime);
+            float lCosX = Mathf.Cos(lAngle);
+            float lSinY = Mathf.Sin(lAngle);
 
-            float lPosZ = transform.position.x * lMatrice.z;
-            lPosZ += transform.position.z * lMatrice.w;
+            Vector4 lMatrice = new Vector4()
+            {
+                x = lCosX,
+                y = -lSinY,
+                z = lSinY,
+                w = lCosX
+            };
 
+            Vector3 lDistance = transform.position - centerPillar.transform.position;
+            float lPosPillarX = lDistance.x * lMatrice.x;
+            lPosPillarX += lDistance.z * lMatrice.y;
 
-            Vector3 lNewPos = new Vector3(lPosPillarX + lPosX, shieldPosY, lPosPillarZ + lPosZ);
+            float lPosPillarZ = lDistance.x * lMatrice.z;
+            lPosPillarZ += lDistance.z * lMatrice.w;
+
+            Vector3 lNewPos = new Vector3(centerPillar.transform.position.x + lPosPillarX, shieldPosY, lPosPillarZ + centerPillar.transform.position.z);
             transform.position = lNewPos;
         }
     }
