@@ -32,40 +32,16 @@ namespace Com.IsartDigital
         {
             // Left
             if (Keyboard.current != null && Keyboard.current.aKey.isPressed)
-                RotationLeft();
+                MakeRotation();
             // Right
             if (Keyboard.current != null && Keyboard.current.dKey.isPressed)
-                RotationRight();
+                MakeRotation(false);
         }
 
-        private void RotationLeft()
+        private void MakeRotation(bool pGoLeft = true)
         {
-            float lAngle = moveSpeed * Time.deltaTime;
-            float lCosX = Mathf.Cos(lAngle);
-            float lSinY = Mathf.Sin(lAngle);
-
-            Vector4 lMatrice = new Vector4()
-            {
-                x = lCosX,
-                y = -lSinY,
-                z = lSinY,
-                w = lCosX
-            };
-
-            Vector3 lDistance = transform.position - centerPillar.transform.position;
-            float lPosPillarX = lDistance.x * lMatrice.x;
-            lPosPillarX += lDistance.z * lMatrice.y;
-
-            float lPosPillarZ = lDistance.x * lMatrice.z;
-            lPosPillarZ += lDistance.z * lMatrice.w;
-
-            Vector3 lNewPos = new Vector3(centerPillar.transform.position.x + lPosPillarX, shieldPosY, lPosPillarZ + centerPillar.transform.position.z);
-            transform.position = lNewPos;
-        }
-
-        private void RotationRight()
-        {
-            float lAngle = -(moveSpeed * Time.deltaTime);
+            float lMultiply = (pGoLeft) ? 1f : -1f;
+            float lAngle = lMultiply * (moveSpeed * Time.deltaTime);
             float lCosX = Mathf.Cos(lAngle);
             float lSinY = Mathf.Sin(lAngle);
 

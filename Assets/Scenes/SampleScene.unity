@@ -1255,7 +1255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Com.IsartDigital.Shield
   centerPillar: {fileID: 58855139}
   distanceToPillar: 7
-  moveSpeed: 1
+  moveSpeed: 3
   shieldPointLeft: {fileID: 1402509907}
   shieldPointRight: {fileID: 1088791871}
 --- !u!65 &1280776158
