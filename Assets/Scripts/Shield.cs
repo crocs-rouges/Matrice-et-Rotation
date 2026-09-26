@@ -26,13 +26,25 @@ namespace Com.IsartDigital
         {
             // Left
             if (Keyboard.current != null && Keyboard.current.aKey.isPressed)
-                MakeRotation();
+            {
+                MakeRotation(shieldPointLeft);
+                MakeRotation(shieldPointRight);
+            }
             // Right
             if (Keyboard.current != null && Keyboard.current.dKey.isPressed)
-                MakeRotation(false);
+            {
+                MakeRotation(shieldPointLeft, false);
+                MakeRotation(shieldPointRight, false);
+            }
+            AlignShieldOnPoint();
         }
 
-        private void MakeRotation(bool pGoLeft = true)
+        /// <summary>
+        /// make a rotation of a point around the center pillar
+        /// </summary>
+        /// <param name="pTransform"></param>
+        /// <param name="pGoLeft"></param>
+        private void MakeRotation(Transform pTransform, bool pGoLeft = true)
         {
             float lMultiply = pGoLeft ? 1f : -1f;
             float lAngle = lMultiply * (moveSpeed * Time.deltaTime);
@@ -47,7 +59,7 @@ namespace Com.IsartDigital
                 w = lCosX
             };
 
-            Vector3 lDistance = transform.position - centerPillar.transform.position;
+            Vector3 lDistance = pTransform.position - centerPillar.transform.position;
             float lPosPillarX = lDistance.x * lMatrice.x;
             lPosPillarX += lDistance.z * lMatrice.y;
 
@@ -55,7 +67,21 @@ namespace Com.IsartDigital
             lPosPillarZ += lDistance.z * lMatrice.w;
 
             Vector3 lNewPos = new Vector3(centerPillar.transform.position.x + lPosPillarX, shieldPosY, lPosPillarZ + centerPillar.transform.position.z);
-            transform.position = lNewPos;
+            pTransform.position = lNewPos;
+        }
+
+        /// <summary>
+        /// Change shield position and rotation based on shield point left and right
+        /// </summary>
+        private void AlignShieldOnPoint()
+        {
+            // Make Shield Position in center of Shield Point
+            Vector3 lDistance = shieldPointRight.position - shieldPointLeft.position;
+            transform.position = shieldPointLeft.position + (lDistance / 2f);
+            transform.position = new Vector3(transform.position.x, shieldPosY, transform.position.z);
+
+            // Make Shield Rotation 
+            transform.rotation = Quaternion.LookRotation(lDistance);
         }
     }
 }
