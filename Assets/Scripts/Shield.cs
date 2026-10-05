@@ -46,6 +46,7 @@ namespace Com.IsartDigital
         /// <param name="pGoLeft"></param>
         private void MakeRotation(Transform pTransform, bool pGoLeft = true)
         {
+            // Matrice Creation
             float lMultiply = pGoLeft ? 1f : -1f;
             float lAngle = lMultiply * (moveSpeed * Time.deltaTime);
             float lCosX = Mathf.Cos(lAngle);
@@ -60,12 +61,14 @@ namespace Com.IsartDigital
             };
 
             Vector3 lDistance = pTransform.position - centerPillar.transform.position;
+            // Matrice Point Calculation
             float lPosPillarX = lDistance.x * lMatrice.x;
             lPosPillarX += lDistance.z * lMatrice.y;
 
             float lPosPillarZ = lDistance.x * lMatrice.z;
             lPosPillarZ += lDistance.z * lMatrice.w;
 
+            // Align New pos w offset
             Vector3 lNewPos = new Vector3(centerPillar.transform.position.x + lPosPillarX, shieldPosY, lPosPillarZ + centerPillar.transform.position.z);
             pTransform.position = lNewPos;
         }
@@ -81,6 +84,7 @@ namespace Com.IsartDigital
             transform.position = new Vector3(transform.position.x, shieldPosY, transform.position.z);
 
             // Make Shield Rotation 
+            // Align disttance w Forward Vector
             transform.rotation = Quaternion.LookRotation(lDistance);
         }
     }
